@@ -1,0 +1,29 @@
+# Ignorar variáveis de ambiente (CRÍTICO - nunca subir!)
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Sistema
+.DS_Store
+Thumbs.db

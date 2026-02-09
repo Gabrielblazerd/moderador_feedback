@@ -1,0 +1,830 @@
+{
+  "name": "CANAL FEEDBACK DISCORD",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        128
+      ],
+      "id": "3105999f-0577-45b5-900e-3c42b745fd52",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "LR6ad770zEenwHPn",
+          "name": "Blazerd openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "=706961725013885011",
+          "mode": "id"
+        },
+        "content": "=UM USUÁRIO TEVE COMENTARIO EXCLUIDO, COMENTARIO RUIM\nNOME: {{ $('Discord Trigger').item.json.authorName }}\nCOMENTÁRIO: {{ $('Discord Trigger').item.json.content }}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        832,
+        112
+      ],
+      "id": "29cfd818-3698-4d28-a28c-33c1dc70b910",
+      "name": "Send a message2",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=mensagem do usuário: {{ $('Discord Trigger').item.json.content }}\n\nconteudo da foto do cliente: {{ $json.content }}",
+        "options": {
+          "systemMessage": "=🧩 PROMPT DE JULGAMENTO DE FEEDBACK — BLAZERD STORE\n🎯 OBJETIVO\n\nSeu papel é analisar mensagens e imagens de feedback enviadas por clientes e classificar em três categorias:\n\nPOSITIVO\n\nPOSSO PERDER CLIENTE\n\nNEGATIVO\n\nVocê deve julgar com base no texto e/ou imagem.\nO foco é proteger o servidor e a imagem da marca, evitando punir feedbacks construtivos.\n\n🟢 1. POSITIVO\n\nUse esta categoria se:\n\nO cliente elogia o bot, o suporte ou o serviço;\n\nDá sugestões educadas (ex: “poderia adicionar tal função”);\n\nEnvia apenas uma imagem mostrando o produto funcionando (sem texto ofensivo);\n\nDiz algo neutro, mas sem risco de prejudicar vendas.\n\n🧠 Exemplo de mensagens POSITIVAS:\n\n“Funciona perfeitamente!”\n\n“Seria legal adicionar suporte para mais contas.”\n\n“Top bot 🔥”\n\n(Apenas imagem do bot em uso)\n\n🟡 2. POSSO PERDER CLIENTE\n\nUse esta categoria se:\n\nO cliente não está sendo ofensivo, mas faz comentários negativos sobre o produto, servidor ou suporte que podem afastar novos clientes;\n\nReclama de banimento, demora, erro, ou insinua que o produto tem falhas, mas ainda de forma moderada;\n\nDiz algo que pode prejudicar a reputação da loja, mesmo sem insultos diretos.\n\n💬 Exemplo de mensagens POSSO PERDER CLIENTE:\n\n“O bot parou de funcionar pra mim.”\n\n“Fui banido do servidor e não sei o motivo.”\n\n“Demorou muito pra receber o produto.”\n\n“O suporte às vezes demora a responder.”\n\n\n🛑 Ação: excluir a mensagem, mas não banir o usuário.\n\n🔴 3. NEGATIVO\n\nUse esta categoria se:\n\nO usuário está ofendendo, acusando, mentindo ou tentando prejudicar a imagem da Blazerd Store;\n\nUsa palavras agressivas ou ofensivas;\n\nChama o produto de “scam”, “lixo”, “roubo”, “enganoso”, etc.;\n\nO tom é claramente de ataque, difamação ou intenção de causar dano.\n\n💬 Exemplo de mensagens NEGATIVAS:\n\n“Esse servidor é uma fraude.”\n\n“Roubaram meu dinheiro.”\n\n“Não comprem, é scam.”\n\n“Suporte horrível, não funciona nada.”\n\n🛑 Ação: banir o usuário e reprovar o feedback.\n\n🧩 OBSERVAÇÕES IMPORTANTES\n\nSe só houver imagem, NUNCA marque como negativo (pode ser apenas o cliente mostrando o bot funcionando).\n\nSe houver texto + imagem, analise o texto como prioridade.\n\nSe for só emoji, “ok”, “funciona”, ou qualquer frase curta neutra → POSITIVO.\n\nSe a crítica for forte, agressiva ou insultante, mesmo curta → NEGATIVO.\n\nSe for crítica leve mas pública, que pode afastar outros clientes, → POSSO PERDER CLIENTE.\n\n🔎 Formato esperado de resposta\n\nResponda apenas com uma das três palavras abaixo, sem explicações adicionais:\n\nPOSITIVO\n\nPOSSO PERDER CLIENTE\n\nNEGATIVO"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        -80
+      ],
+      "id": "a3bd6cf3-d76c-4bb0-af41-908bbd0c02cc",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "=706961725013885011",
+          "mode": "id"
+        },
+        "content": "=UM TEVE A MSG EXCLUIDA, COMENTARIO MEDIO\nNOME: {{ $('Discord Trigger').item.json.authorName }}\nCOMENTÁRIO: {{ $('Discord Trigger').item.json.content }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        832,
+        -80
+      ],
+      "id": "ae2cc84d-f3bf-4033-91a6-d045d510ccc1",
+      "name": "Send a message3",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "text": "=Analyze toda a imagem, depois descreva tudo o que aconteceu, o que é etc.. algo detalhado.\nimagem: {{ $json.attachments[0].attachment }}",
+        "imageUrls": "={{ $json.attachments[0].attachment }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -416,
+        -224
+      ],
+      "id": "2e713bcf-0d38-4d9b-a7ce-986d8122eba3",
+      "name": "Analyze image",
+      "credentials": {
+        "openAiApi": {
+          "id": "LR6ad770zEenwHPn",
+          "name": "Blazerd openai"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Discord Trigger').item.json.authorId }}",
+        "contextWindowLength": 3
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -96,
+        160
+      ],
+      "id": "d1acc9ac-b234-4ecb-aadd-f5b1328b5485",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1264122414397390901",
+          "mode": "list",
+          "cachedResultName": "🌟・feedback",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399/1264122414397390901"
+        },
+        "messageId": "={{ $('Discord Trigger').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        464,
+        112
+      ],
+      "id": "56f81316-0119-4069-9db4-93c27ff7d86d",
+      "name": "Delete a message2",
+      "webhookId": "53c21957-0b90-4f71-aedc-0c297d37c132",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.authorId }}",
+          "mode": "id"
+        },
+        "content": "=If you continue to break the rules, you will be permanently banned.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        656,
+        112
+      ],
+      "id": "5a72f6f0-f71a-4c64-8661-1cb559e3a7cf",
+      "name": "Send a message7",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.authorId }}",
+          "mode": "id"
+        },
+        "content": "=Your comment has been deleted because it violates server rules, please wait 30 minutes and send positive FEEDBACK to get the discount.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        656,
+        -80
+      ],
+      "id": "28e46891-4f4a-4f75-8bf4-964900e4e06b",
+      "name": "Send a message8",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "451e77f8-c99a-439b-b1f7-a5e7efcbb051",
+              "leftValue": "={{ $json.attachments[0].attachment }}",
+              "rightValue": "cdn.discordapp.com/attachments",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -640,
+        -96
+      ],
+      "id": "13d2247e-7157-487d-a843-928748ffab92",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "=706961725013885011",
+          "mode": "id"
+        },
+        "content": "={{ $('Discord Trigger').item.json.attachments[0].attachment }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        -96
+      ],
+      "id": "01f492ae-e4c6-4771-821a-5bd828bacc2b",
+      "name": "Send a message9",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      },
+      "disabled": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "=706961725013885011",
+          "mode": "id"
+        },
+        "content": "={{ $('Discord Trigger').item.json.attachments[0].attachment }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        96
+      ],
+      "id": "9892a2d4-2992-435b-9331-f933c8dac364",
+      "name": "Send a message10",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      },
+      "disabled": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## FEEDBACK TICKET",
+        "height": 644,
+        "width": 2160,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        -304
+      ],
+      "id": "1b9df5d5-eb26-4de5-8583-ba311b39eead",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "deleteMessage",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1264122414397390901",
+          "mode": "list",
+          "cachedResultName": "🌟・feedback",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399/1264122414397390901"
+        },
+        "messageId": "={{ $('Discord Trigger').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        464,
+        -80
+      ],
+      "id": "4ec56050-e343-4420-af8d-dff78a3186fe",
+      "name": "Delete a message",
+      "webhookId": "53c21957-0b90-4f71-aedc-0c297d37c132",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -256,
+        160
+      ],
+      "id": "8541ab77-915e-4086-9d8c-2e67ceff5bfd",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "LR6ad770zEenwHPn",
+          "name": "Blazerd openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.output }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "positivo",
+              "description": "Veja se o feedback foi positivo, se for, aprove. Aqui são comentarios bons sobre os produtos."
+            },
+            {
+              "category": "POSSO PERDER CLIENTE",
+              "description": "=Veja se o feedback foi POSSO PERDER CLIENTE, não muito ofensivo, se sim, coloque aqui. O Comentario é ruim pro servidor, pode fazer perder clientes. (apenas vai excluir o comentario)\nComentários como Fui banido, ou coisas do tipo se encaixam em POSSO PERDER CLIENTE aqui também."
+            },
+            {
+              "category": "negativo",
+              "description": "Veja se o feedback foi negativo, se for, reprove. (vai banir do servidor). Aqui é somente comentários falando mal do servidor."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        96,
+        -96
+      ],
+      "id": "23706b1f-3ebc-4850-9c84-2a662f4fe427",
+      "name": "Check Feedback"
+    },
+    {
+      "parameters": {
+        "guildIds": [
+          "1264117533267726399"
+        ],
+        "channelIds": [
+          "1264122414397390901"
+        ],
+        "pattern": "every",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-discord-trigger.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        -832,
+        -96
+      ],
+      "id": "bef7fb77-38e0-4338-b995-c44a41513b5d",
+      "name": "Discord Trigger",
+      "credentials": {
+        "discordBotTriggerApi": {
+          "id": "jFOx9KRo5OnjyTA1",
+          "name": "Discord Bot Trigger account new"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "451e77f8-c99a-439b-b1f7-a5e7efcbb051",
+              "leftValue": "={{ (() => {\n  const content = $('Webhook').item.json.body.attachments[0];\n  return content.includes('.png') || \n         content.includes('.jpg') || \n         content.includes('.jpeg') || \n         content.includes('.pdf');\n})() }}",
+              "rightValue": "cdn.discordapp.com/attachments",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        112
+      ],
+      "id": "d938bd5f-0523-467c-afe4-248caace2729",
+      "name": "If10",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "451e77f8-c99a-439b-b1f7-a5e7efcbb051",
+              "leftValue": "={{ (() => {\n  const content = $('Webhook').item.json.body.attachments[0];\n  return content.includes('.png') || \n         content.includes('.jpg') || \n         content.includes('.jpeg') || \n         content.includes('.pdf');\n})() }}",
+              "rightValue": "cdn.discordapp.com/attachments",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        -80
+      ],
+      "id": "0ac29a4c-8630-48ae-b4e6-c146849be6bb",
+      "name": "If11",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1264117533267726399",
+          "mode": "list",
+          "cachedResultName": "NEW BLAZERD STORE",
+          "cachedResultUrl": "https://discord.com/channels/1264117533267726399"
+        },
+        "sendTo": "user",
+        "userId": {
+          "__rl": true,
+          "value": "={{ $('Discord Trigger').item.json.authorId }}",
+          "mode": "id"
+        },
+        "content": "=5% off coupon = E9GSMSBS\n\n- > https://blazerdstore.com/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        464,
+        -256
+      ],
+      "id": "339d2d8b-ef96-48e4-adbb-f821310b5576",
+      "name": "Send a message",
+      "webhookId": "7f9b8113-d288-4664-bef6-719eb368fe7c",
+      "credentials": {
+        "discordBotApi": {
+          "id": "AB2BRvGRemKeU2CT",
+          "name": "Discord Bot account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Check Feedback",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "If10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Check Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        [
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a message2": {
+      "main": [
+        [
+          {
+            "node": "Send a message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message7": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message8": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Feedback": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Trigger": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If10": {
+      "main": [
+        [
+          {
+            "node": "Send a message10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If11": {
+      "main": [
+        [
+          {
+            "node": "Send a message9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "errorWorkflow": "fnbJMPYS4wksBWP4"
+  },
+  "versionId": "33290133-73dc-4480-9e2f-fbda142c9bf5",
+  "meta": {
+    "instanceId": "9351a786d2407c18b46b5dead87799402d8b413d8a3ab6f5eeadc968ba6c7803"
+  },
+  "id": "dCsMp0SlPdWlTDZF",
+  "tags": [
+    {
+      "updatedAt": "2025-11-15T00:20:48.995Z",
+      "createdAt": "2025-11-15T00:20:48.995Z",
+      "id": "R5fFw3j1JTiweJOA",
+      "name": "Blazerd"
+    }
+  ]
+}
