@@ -51,7 +51,7 @@ GUILD_ID=
 ### 3. Executar o bot
 
 ```bash
-python feedback_moderation_bot.py
+python main.py
 ```
 
 ## 🔧 Funcionalidades
