@@ -38,7 +38,7 @@ DISCORD_TOKEN=seu_token_aqui
 OPENAI_API_KEY=sk-sua-chave-aqui
 
 # ID do líder do Discord que recebe os relatórios
-LEADER_ID=706961725013885011
+LEADER_ID=
 
 # ID do canal de feedback
 FEEDBACK_CHANNEL_ID=
