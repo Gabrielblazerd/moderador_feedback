@@ -182,35 +182,33 @@ async def analyze_feedback_with_ai(text_content: str, image_urls: list = None) -
 
 
 async def send_user_warning(user: discord.User, classification: str, is_edit: bool = False):
-    """Envia mensagem de aviso para o usuário"""
+    """Envia mensagem de aviso para o usuário (em inglês)"""
     try:
-        edit_text = " (mensagem editada)" if is_edit else ""
+        edit_text = " (edited message)" if is_edit else ""
         
         if classification == "NEGATIVO":
-            message = f"""⚠️ **AVISO - BLAZERD STORE**{edit_text}
+            message = f"""⚠️ **WARNING - BLAZERD STORE**{edit_text}
 
-Sua mensagem no canal de feedback foi removida por violar as regras do servidor.
+Your message in the feedback channel has been removed for violating server rules.
 
-📋 **Regra violada:** Feedback ofensivo/prejudicial à loja
-⏰ **Consequência:** Você foi silenciado por **1 DIA (24 horas)**
+📋 **Rule violated:** Offensive/harmful feedback
+⏰ **Consequence:** You have been muted for **1 DAY (24 hours)**
 
-🚨 **ATENÇÃO:** Se continuar quebrando as regras, você será **BANIDO PERMANENTEMENTE** do servidor.
+🚨 **WARNING:** If you continue breaking the rules, you will be **PERMANENTLY BANNED** from the server.
 
-Se acredita que isso foi um erro, entre em contato com o suporte após o período de silenciamento."""
+If you believe this was a mistake, please contact support after the mute period."""
 
         elif classification == "POSSO_PERDER_CLIENTE":
-            message = f"""⚠️ **AVISO - BLAZERD STORE**{edit_text}
+            message = f"""⚠️ **WARNING - BLAZERD STORE**{edit_text}
 
-Sua mensagem no canal de feedback foi removida.
+Your message in the feedback channel has been removed.
 
-📋 **Motivo:** O conteúdo pode prejudicar a imagem da loja
-⏰ **Consequência:** Você foi silenciado por **1 HORA**
+📋 **Reason:** The content may harm the store's image
+⏰ **Consequence:** You have been muted for **1 HOUR**
 
-💡 Se tiver problemas com o produto, entre em contato com o suporte diretamente.
+💡 If you have issues with the product, please contact support directly.
 
-💡 Se tiver problemas com o produto, entre em contato com o suporte diretamente.
-
-🎁 Cupom de 5% off após enviar feedback positivo: **E9GSMSBS**"""
+🎁 5% off coupon after sending positive feedback: **E9GSMSBS**"""
 
         await user.send(message)
         print(f"✅ Aviso enviado para {user.name}#{user.discriminator}")
@@ -407,8 +405,8 @@ async def process_feedback_message(message: discord.Message, is_edit: bool = Fal
         # Opcional: Enviar cupom de desconto
         try:
             await message.author.send(
-                f"🎉 **Obrigado pelo seu feedback positivo!**\n\n"
-                f"🎁 Cupom de 5% off: **E9GSMSBS**\n"
+                f"🎉 **Thank you for your positive feedback!**\n\n"
+                f"🎁 5% off coupon: **E9GSMSBS**\n"
                 f"🔗 https://blazerdstore.com/"
             )
         except:
