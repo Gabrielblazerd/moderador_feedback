@@ -1,18 +1,3 @@
-"""
-🤖 BOT DE MODERAÇÃO DE FEEDBACK - BLAZERD STORE
-================================================
-Este bot monitora o canal de feedback e usa IA (OpenAI GPT-4) para:
-- Analisar se o feedback é POSITIVO, MÉDIO ou NEGATIVO
-- Excluir mensagens inadequadas (texto + fotos)
-- Silenciar usuários que quebram as regras
-- Enviar aviso para o usuário
-- Enviar relatório completo para o líder do servidor
-- Detectar edições de mensagens
-
-Autor: Assistente IA
-Data: 2026-02-10
-"""
-
 import discord
 from discord.ext import commands
 import openai

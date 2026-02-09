@@ -41,14 +41,12 @@ OPENAI_API_KEY=sk-sua-chave-aqui
 LEADER_ID=706961725013885011
 
 # ID do canal de feedback
-FEEDBACK_CHANNEL_ID=1264122414397390901
+FEEDBACK_CHANNEL_ID=
 
 # ID do servidor Discord
-GUILD_ID=1264117533267726399
+GUILD_ID=
 
-# Tempo de silenciamento em minutos
-TIMEOUT_DURATION=30
-```
+
 
 ### 3. Executar o bot
 
