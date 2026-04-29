@@ -137,7 +137,3 @@ O bot exibe logs detalhados no console:
 - Nunca compartilhe seu `.env` ou tokens
 - O `.env` está no `.gitignore` (se usar Git)
 - Use variáveis de ambiente em produção
-
-## 📞 Suporte
-
-Criado por Assistente IA para BLAZERD STORE
