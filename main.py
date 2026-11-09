@@ -8,6 +8,10 @@ from dotenv import load_dotenv
 import base64
 import aiohttp
 import json
+import sqlite3
+from contextlib import closing
+import logging
+import sys
 
 # Carrega variáveis de ambiente
 load_dotenv()
@@ -103,7 +107,40 @@ intents.message_content = True
 intents.members = True
 intents.guilds = True
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+MODERATION_STATE_DB = os.getenv("MODERATION_STATE_DB", "moderation_state.db")
+moderation_enabled = True
+
+
+def moderation_state(enabled=None):
+    """Keep /off across restarts when this database is on the Railway volume."""
+    with closing(sqlite3.connect(MODERATION_STATE_DB)) as state_db, state_db:
+        state_db.execute("CREATE TABLE IF NOT EXISTS moderation_state (id INTEGER PRIMARY KEY CHECK(id=1), enabled INTEGER NOT NULL)")
+        if enabled is not None:
+            state_db.execute(
+                "INSERT INTO moderation_state VALUES (1, ?) ON CONFLICT(id) DO UPDATE SET enabled=excluded.enabled",
+                (int(enabled),),
+            )
+        row = state_db.execute("SELECT enabled FROM moderation_state WHERE id=1").fetchone()
+        return bool(row[0]) if row else True
+
+
+class FeedbackBot(commands.Bot):
+    async def setup_hook(self):
+        global moderation_enabled
+        moderation_enabled = moderation_state()
+        await self.tree.sync()
+
+
+_stdout_handler = logging.StreamHandler(sys.stdout)
+_stdout_handler.addFilter(lambda record: record.levelno < logging.WARNING)
+_stderr_handler = logging.StreamHandler(sys.stderr)
+_stderr_handler.setLevel(logging.WARNING)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+    handlers=[_stdout_handler, _stderr_handler],
+)
+bot = FeedbackBot(command_prefix="!", intents=intents)
 
 
 # ==================== FUNÇÕES AUXILIARES ====================
@@ -364,6 +401,9 @@ async def delete_message_safely(message: discord.Message):
 async def process_feedback_message(message: discord.Message, is_edit: bool = False, original_content: str = None):
     """Processa uma mensagem de feedback (nova ou editada)"""
     
+    if not moderation_enabled:
+        return
+
     # Ignorar mensagens do próprio bot
     if message.author.bot:
         return
@@ -511,6 +551,26 @@ async def on_message_edit(before: discord.Message, after: discord.Message):
 
 # ==================== COMANDOS ADMINISTRATIVOS ====================
 
+@bot.hybrid_command(name="off", description="Pausar a moderação automática")
+@commands.guild_only()
+@commands.has_permissions(administrator=True)
+async def disable_moderation(ctx):
+    global moderation_enabled
+    moderation_state(False)
+    moderation_enabled = False
+    await ctx.send("Moderação automática pausada.", ephemeral=ctx.interaction is not None)
+
+
+@bot.hybrid_command(name="on", description="Retomar a moderação automática")
+@commands.guild_only()
+@commands.has_permissions(administrator=True)
+async def enable_moderation(ctx):
+    global moderation_enabled
+    moderation_state(True)
+    moderation_enabled = True
+    await ctx.send("Moderação automática ativada.", ephemeral=ctx.interaction is not None)
+
+
 @bot.command(name="status")
 @commands.has_permissions(administrator=True)
 async def status_command(ctx):
@@ -519,7 +579,7 @@ async def status_command(ctx):
         title="🤖 Status do Bot de Moderação",
         color=discord.Color.green()
     )
-    embed.add_field(name="Estado", value="✅ Online", inline=True)
+    embed.add_field(name="Estado", value="Ativa" if moderation_enabled else "Pausada", inline=True)
     embed.add_field(name="Canal Monitorado", value=f"<#{FEEDBACK_CHANNEL_ID}>", inline=True)
     embed.add_field(name="Líder", value=f"<@{LEADER_ID}>", inline=True)
     embed.add_field(name="Timeout Médio", value="1 hora", inline=True)
@@ -574,4 +634,4 @@ if __name__ == "__main__":
         exit(1)
     
     print("🚀 Iniciando bot...")
-    bot.run(DISCORD_TOKEN)
+    bot.run(DISCORD_TOKEN, log_handler=None)
